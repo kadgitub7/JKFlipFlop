@@ -1,15 +1,11 @@
 # Introduction to JK Flip Flops
-
 ## Overview
-
 The **JK Flip Flop** is an improvement over the SR Flip Flop. Its key advantage is that it eliminates the invalid state that occurs when both S and R inputs are set to `1`, replacing it with a useful **toggle** behaviour.
 
 ---
 
 ## Circuit Description
-
 The JK Flip Flop is wired with feedback between its outputs and inputs:
-
 - **Q'** is fed back as an input to the NAND gate responsible for producing **Q**
 - **Q** is fed back as an input to the NAND gate responsible for producing **Q'**
 
@@ -18,7 +14,6 @@ For all input combinations **other than J = 1, K = 1**, the outputs behave ident
 ---
 
 ## The J = 1, K = 1 Case (Toggle)
-
 When **J = 1, K = 1, Clk = 1**, the feedback connections cause the outputs to **toggle** on each clock cycle rather than entering an invalid state.
 
 **Example walkthrough:**
@@ -46,6 +41,85 @@ On the next clock cycle, the outputs will switch back to **Q = 0, Q' = 1**, and 
 | 1   | 1 | 1 | (Qn)' (Toggle)|
 
 > `X` denotes a *don't care* condition — the input value has no effect on the output.
+
+This behaviour of the input **J = 1** and **K = 1** switching the saved values to the complements is called **toggling**.
+
+---
+
+## Characteristic Table
+
+The characteristic table shows the next state **Qn+1** based on the current state **Qn** and inputs **J** and **K**:
+
+| Qn | J | K | Qn+1 |
+|----|---|---|------|
+| 0  | 0 | 0 | 0    |
+| 0  | 0 | 1 | 0    |
+| 0  | 1 | 0 | 1    |
+| 0  | 1 | 1 | 1    |
+| 1  | 0 | 0 | 1    |
+| 1  | 0 | 1 | 0    |
+| 1  | 1 | 0 | 1    |
+| 1  | 1 | 1 | 0    |
+
+---
+
+## Excitation Table
+
+The excitation table shows the required inputs **J** and **K** to achieve a desired state transition from **Qn** to **Qn+1**:
+
+| Qn | Qn+1 | J | K |
+|----|------|---|---|
+| 0  | 0    | 0 | X |
+| 0  | 1    | 1 | X |
+| 1  | 0    | X | 1 |
+| 1  | 1    | X | 0 |
+
+> `X` denotes a *don't care* condition.
+
+---
+
+## Karnaugh Maps
+
+### J K-Map
+
+Derived from the characteristic table, plotting **J** against **Qn / Qn+1**:
+
+| Qn \ Qn+1 | 0 | 1 |
+|-----------|---|---|
+| 0         | 0 | 1 |
+| 1         | X | X |
+
+**1 group of 2:**
+$$J = Q_{n+1}$$
+
+### K K-Map
+
+Derived from the characteristic table, plotting **K** against **Qn / Qn+1**:
+
+| Qn \ Qn+1 | 0 | 1 |
+|-----------|---|---|
+| 0         | X | X |
+| 1         | 1 | 0 |
+
+**1 group of 2:**
+$$K = (Q_{n+1})'$$
+
+### Qn+1 K-Map
+
+Plotting **Qn+1** against **Qn** and **JK** input combinations:
+
+| Qn \ JK | 00 | 01 | 11 | 10 |
+|---------|----|----|----|----|
+| 0       | 0  | 0  | 1  | 1  |
+| 1       | 1  | 0  | 0  | 1  |
+
+---
+
+## Characteristic Equation
+
+From the Karnaugh map, the next state equation for the JK Flip Flop is:
+
+$$Q_{n+1} = J \cdot (Q_n)' + Q_n \cdot K'$$
 
 ---
 
