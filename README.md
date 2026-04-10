@@ -40,6 +40,32 @@ The toggling behaviour of the JK Flip Flop introduces a timing hazard known as t
 2. **Edge triggering** — By triggering only on the rising or falling edge of the clock, there is not enough time for the circuit to race, since the active window is extremely narrow.
 3. **Master-Slave Flip Flops** — Using a master-slave configuration separates the capture and output stages, ensuring the feedback path is broken during the active clock phase.
 ![RacingDiagram](/RacingDiagram.png)
+
+---
+
+## Master-Slave JK Flip Flop
+
+The **Master-Slave JK Flip Flop** is a solution to the race around condition. Its operation is equivalent to **negative edge triggering**.
+
+### Circuit Description
+
+The Master-Slave configuration is constructed by:
+- Adding a **second JK Flip Flop** (the Slave) in series after the first (the Master)
+- Connecting feedback from the **original input and the final output** of the Slave back to the Master
+- Supplying the **complement of the original clock** to the Slave
+
+### How It Works
+
+- The **first flip flop (Master)** is active when the clock is **high**
+- The **second flip flop (Slave)** is active when the clock is **low** (since it receives the complemented clock)
+
+Because only one flip flop is operational at any given time, the feedback path from the output back to the input is always **broken**. This means:
+- There is **no feedback** present while either stage is capturing its input
+- The **race around condition cannot occur**
+- **Toggling happens exactly once per clock cycle**, controlled and predictable
+
+> **Key takeaway:** By complementing the clock to the Slave, the Master and Slave stages are never active simultaneously, eliminating the feedback loop that causes racing.
+![MasterSlaveDiagram](/MasterSlaveDiagram.png)
 ---
 
 ## Truth Table
